@@ -55,7 +55,7 @@ class CmdBar():
         el =dict()
         
         el[96] = self.change_status
-        el[8] = lambda: self.write_text(self.text[:-1]) 
+        el[8] = lambda: self.write_text(self.text_history.get_actual_elem()[:-1]) 
         el[274] = lambda: (self.text_history.move_down().get_actual_elem())
         #el[8] = 
         return el
