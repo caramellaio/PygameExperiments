@@ -2,6 +2,7 @@ import pygame
 import math
 
 class CmdBar():
+  
     def __init__(self,dim_x,dim_y,pos_x,pos_y,surf,active=False,text=""):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((dim_x,dim_y))        
@@ -12,7 +13,6 @@ class CmdBar():
         self.x = pos_x
         self.y = pos_y
         self.active = active
-        self.text = text
         self.font = pygame.font.SysFont("monospace",25)
         self.parent_surf = surf
         self.cmd_dict = self.load_cmd_dict()
@@ -26,7 +26,7 @@ class CmdBar():
     def draw(self):
         if(self._something_changes):
             if(self.active):
-                self.write_text(self.text)
+                self.write_text(self.text_history.get_actual_elem())
             else:
                 self.image.fill((0,0,0))
             self.parent_surf.blit(self.image,(self.x,self.y))
@@ -34,15 +34,13 @@ class CmdBar():
 
     def append_text(self, text):
         self._something_changes = True
-        self.write_text(self.text+text if self._get_max_text_capacity() > len(text+self.text) else text)
+        self.write_text(self.text_history.get_actual_elem()+text if not self.is_bar_full()  else text)
     
     def write_text(self,text):
-        self.text_history
         self._something_changes = True
         self.image.fill((0,0,0))
         txt = self.font.render(text,1,(120,120,120))
-        print(text)
-        self.text = text
+        self.text_history.set_actual_elem(text)
         self.image.blit(txt,(0,0))
         
 
@@ -86,15 +84,16 @@ class CmdBar():
         elif self.active:
             self.append_text(chr(ev.key))
 
-    # TODO: fix
-    def _get_max_text_capacity(self):
-        size = self.font.render("a",1,(2,2,2)).get_size()[0]
-        return math.floor(self.image.get_size()[0] / size)
+    def is_bar_full(self):
+        size_text = self.font.render(self.text_history.get_actual_elem(),1,(2,2,2)).get_size()[0]
+        print("size text = "+ str(size_text))
+        return  size_text > self.image.get_size()[0]
 
 
 class TextManager(list):
     def __init__(self):
         super()
+        self.append("")
         self._actual_index = 0
 
     def move_up(self):
@@ -106,8 +105,11 @@ class TextManager(list):
         return self
    
     def get_actual_elem(self):
-        return self[self._actual_index]
+        return self[self._actual_index] if len(self) > 0 else ""
 
     def set_actual_elem(self,value):
-        self[self._actual_index] = value
+        if len(self) >= self._actual_index:
+            self[self._actual_index] = value 
+        else:
+            self.append(value)
         return self
