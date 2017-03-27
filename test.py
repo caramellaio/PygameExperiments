@@ -3,12 +3,13 @@ from pygame.locals import *
 import random
 from button import Button
 from bar import CmdBar
+from keyboard import KeyHandler 
 #temp
 oldkey = None
 
 def main():
     pygame.init()
-    screen = pygame.display.set_mode((640,480))
+    screen = pygame.display.set_mode((240,480))
     pygame.display.set_caption("Basic Pygame Program")
     pygame.font.init()
     background = pygame.Surface(screen.get_size())
@@ -17,7 +18,7 @@ def main():
 
     font = pygame.font.Font(None,36)
 
-
+    k_hand = KeyHandler()
     #group stuff
     Button.groups = pygame.sprite.Group()
     
@@ -28,7 +29,6 @@ def main():
     screen.blit(background,(0,0))
     pygame.display.flip()
     random.seed(4324)
-    print(Button.groups)
     while 1:
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -37,11 +37,11 @@ def main():
                 onmousepressed([b],pygame.MOUSEBUTTONUP)
             
             if event.type == pygame.KEYDOWN:
-                kkk.get_event(event)
-                input_test(event)
-                #kkk.append_text(chr(event.key))
-                #kkk.get_keyboard_event(pygame.key.get_pressed())                
-            #onmousepressed([text])
+                k_hand.handle_key_down(event)
+                kkk.draw(k_hand.text,k_hand.cursor_pos)
+
+            if event.type == pygame.KEYUP:
+                k_hand.handle_key_up(event)
             #background.blit(text,textpos)
             #screen.blit(background,(random.randint(0,1000),random.randint(0,1000)))
             #text = font.render("sieg heil",1,(10,10,10))
@@ -68,6 +68,7 @@ def update_keyboard_status():
     
 def input_test(event):
     print(event.key)
+
 if __name__ == '__main__':main() 
 
 
