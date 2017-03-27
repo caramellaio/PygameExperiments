@@ -34,7 +34,6 @@ class CmdBar():
         self.write_text(self.text+text if not self._max_size > len(self.text+text)  else text)
     
     def write_text(self,text):
-        print(self.get_max_char_space())
         self.image.fill((0,0,0))
         if len(text) > self._max_size:
             text = text[self._max_size:]
@@ -49,7 +48,6 @@ class CmdBar():
 
     def get_max_char_space(self):
         size_chr = self.font.render("a",1,(2,2,2)).get_size()[0]
-        print("size text = "+ str(size_chr))
         return int(self.image.get_size()[0] / size_chr)
 
 
