@@ -20,9 +20,9 @@ class KeyHandler():
     def handle_key_up(self,event):
         if event.key == pygame.KMOD_LSHIFT or event.key == pygame.KMOD_RSHIFT:
             self.shift = False
-        elif event.key == self.actual_event.key:
-            self.actual_event = None
-            self.push_control.reset()
+        #elif event.key == self.actual_event.key:
+        self.actual_event = None
+        self.push_control.reset()
 
     def handle_key_down(self,event):
 
