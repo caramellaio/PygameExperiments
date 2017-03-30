@@ -23,12 +23,19 @@ class CmdBar():
         if text == None: text = self.text
         if cursor_pos == None: cursor_pos = len(text)
         if(self.active):
-            # draw a rectangle as a cursot here
-            pygame.draw.rect(self.image,(10,10,10),(0,10,10,10))
             self.write_text(text)
+            self._draw_cursor(cursor_pos,(110,10,10))
         else:
             self.image.fill((0,0,0))
         self.parent_surf.blit(self.image,(self.x,self.y))
+    
+    def _draw_cursor(self,cursor_pos,cursor_color):
+        char_sz = self.font.render("a",1,(2,2,2)).get_size()
+        start_x = char_sz[0]*cursor_pos
+        start_y = 0 # could be wrong...
+        size_x = char_sz[0]#start_x + char_sz[0]
+        size_y = char_sz[1]
+        pygame.draw.rect(self.image,cursor_color,(start_x,start_y,size_x,size_y))
 
     def append_text(self, text):
         self.write_text(self.text+text if not self._max_size > len(self.text+text)  else text)
