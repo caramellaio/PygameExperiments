@@ -7,7 +7,6 @@ class CmdBar():
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((dim_x,dim_y))        
         #pygame.draw.circle(self.image, (255,0,0), (50,50), 50, 2)
-        self.image.fill((0,100,0))
         self.rect = self.image.get_rect()
         self.event_dict = dict()
         self.x = pos_x
@@ -19,9 +18,8 @@ class CmdBar():
         self._max_size = self.get_max_char_space()
 
     #still not drawing cursor
-    def draw(self,text=None,cursor_pos=None):
-        if text == None: text = self.text
-        if cursor_pos == None: cursor_pos = len(text)
+    def draw(self,text,cursor_pos):
+        
         if(self.active):
             self.write_text(text)
             self._draw_cursor(cursor_pos,(110,10,10))
@@ -36,6 +34,8 @@ class CmdBar():
         size_x = char_sz[0]#start_x + char_sz[0]
         size_y = char_sz[1]
         pygame.draw.rect(self.image,cursor_color,(start_x,start_y,size_x,size_y))
+        if cursor_pos < len(self.text):
+            self.image.blit(self.font.render(self.text[cursor_pos],1,(120,120,120)),(start_x,start_y))
 
     def append_text(self, text):
         self.write_text(self.text+text if not self._max_size > len(self.text+text)  else text)
