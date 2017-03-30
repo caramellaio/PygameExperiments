@@ -56,7 +56,7 @@ class KeyHandler():
         #self.message_event.put_msg(event) # I'll probably change this...add_event(event
 
     def move_cursor_r(self):
-        self.cursor_pos = self.cursor_pos +1 if self.cursor_pos <= len(self.text) else len(self.text)
+        self.cursor_pos = self.cursor_pos +1 if self.cursor_pos < len(self.text) else len(self.text)
 
     def move_cursor_l(self):
         self.cursor_pos = max(self.cursor_pos -1, 0)
