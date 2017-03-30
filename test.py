@@ -46,7 +46,6 @@ def main():
             #screen.blit(background,(random.randint(0,1000),random.randint(0,1000)))
             #text = font.render("sieg heil",1,(10,10,10))
         b.draw(screen)
-        kkk.draw()
         if k_hand.handle_on_clock():
             kkk.draw(k_hand.text,k_hand.cursor_pos)
         pygame.display.update()
