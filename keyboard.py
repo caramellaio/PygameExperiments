@@ -35,7 +35,8 @@ class KeyHandler():
                 self.text = ""
                 self.cursor_pos = 0
             else:
-                self.text = self.text[:self.cursor_pos-1] + self.text[self.cursor_pos+1:]
+
+                self.text = self.text[:self.cursor_pos-1] + self.text[self.cursor_pos:]
                 self.move_cursor_l()
         elif event.key == pygame.K_RIGHT:
             self.move_cursor_r()
